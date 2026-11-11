@@ -73,7 +73,7 @@ h1{
 }
 .track{display:flex; transition:transform .9s cubic-bezier(.65,0,.35,1)}
 .slide{flex:0 0 100%; margin:0}
-.slide img{width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; -webkit-user-drag:none; user-select:none}
+.slide img{width:100%; height:auto; aspect-ratio:10/9; object-fit:cover; -webkit-user-drag:none; user-select:none}
 .g-ctrl{display:flex; justify-content:center; align-items:center; gap:12px; margin-top:22px}
 .pips{display:flex; align-items:center; gap:10px; height:44px; padding:0 18px; border-radius:980px; background:var(--bg-alt)}
 .pip{
@@ -119,12 +119,6 @@ h2{margin:0 8px 22px; font-size:clamp(28px,6.6vw,40px); font-weight:700; letter-
 .chev{width:8px; height:13px; flex:none; color:var(--text-2); opacity:.6}
 .off{opacity:.45; pointer-events:none}
 
-.tg{margin-top:28px; padding:26px 22px; border-radius:18px; background:var(--group); display:flex; align-items:center; gap:16px; flex-wrap:wrap}
-.tg-text{flex:1 1 220px}
-.tg h3{margin:0; font-size:21px; font-weight:700; letter-spacing:-.01em}
-.tg p{margin:4px 0 0; font-size:15px; color:var(--text-2)}
-.tg a{padding:10px 20px; border-radius:980px; background:var(--sun); color:var(--on-sun); font-size:15px; font-weight:500; text-decoration:none; white-space:nowrap}
-.tg a.off{background:var(--sep); color:var(--text-2)}
 
 footer{padding:28px 20px 36px; text-align:center; font-size:12px; color:var(--text-2); background:var(--bg-alt); border-top:1px solid var(--sep)}
 
@@ -160,8 +154,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sun); outline-offse
   h2{margin:0 0 24px; font-size:32px}
   .row-in{min-height:68px}
   .row:hover{background:var(--sep)}
-  .cta:hover,.tg a:hover{background:var(--sun-hover)}
-  .tg a.off:hover{background:var(--sep)}
+  .cta:hover{background:var(--sun-hover)}
   footer{border-top:none}
 }
 </style>
@@ -185,8 +178,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sun); outline-offse
 <div class="art gallery-wrap" id="gallery-wrap">
   <div class="gallery" id="gallery" aria-roledescription="carousel">
     <div class="track" id="track">
-      <figure class="slide"><img src="covers/cover-1.webp" width="2000" height="1500" alt="" fetchpriority="high"></figure>
-      <figure class="slide"><img src="covers/cover-2.webp" width="2000" height="1500" alt="" decoding="async"></figure>
+      <figure class="slide"><img src="covers/front.webp" width="2000" height="1800" alt="" fetchpriority="high"></figure>
+      <figure class="slide"><img src="covers/back.webp" width="2000" height="1800" alt="" decoding="async"></figure>
     </div>
   </div>
   <div class="g-ctrl">
@@ -208,14 +201,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sun); outline-offse
   <div class="inner">
     <h2 data-t="listenTitle"></h2>
     <ul class="group" id="links"></ul>
-
-    <div class="tg">
-      <div class="tg-text">
-        <h3 data-t="tgTitle"></h3>
-        <p data-t="tgSub"></p>
-      </div>
-      <a id="tg-btn"></a>
-    </div>
   </div>
 </section>
 </div>
@@ -236,7 +221,6 @@ const LINKS = [
   { zh:"Apple Music", en:"Apple Music",        url:"https://music.apple.com/album/sounds-of-mengmaolone/6832990628", icon:"icons/applemusic.png", color:"#FA5C70" },
   { zh:"QQ 音乐",     en:"QQ Music",           url:"https://c6.y.qq.com/base/fcgi-bin/u?__=cegukIdjqWo2", icon:"icons/qqmusic.png",    color:"#31C27C" }
 ];
-const TELEGRAM = "";   // 例如 https://t.me/你的群组
 
 /* 文案：中文 / 英文 */
 const TEXT = {
@@ -247,11 +231,7 @@ const TEXT = {
     intro:"瑞丽江的水，流了 2000 多年。<br><br>它见过勐卯弄的王宫与繁花，也见过战火、离散，和快要被遗忘的文字。这张专辑，是我用傣语写给这片土地的歌。<br><br>我唱祖先的伤痕，也唱泼水节的笑声；唱田埂上的晨雾、寺院里的诵经，也唱爱过的人和碎过的心。我还唱给妈妈听：十一岁那年我想要的机甲，你一直记着。现在我的声音终于传到了很远的地方，你却再也听不见了。<br><br>有人等着看我跌倒，可我身体里流着傣家的血，停不下来。<br><br>这不是翻唱歌曲，是一个傣家孩子替勐卯弄重新开口。<br><strong>这是勐卯弄。</strong><br><br>非常感谢你支持实体专辑。",
     listenTitle:"选择平台收听",
     soon:"即将上线",
-    tgTitle:"Telegram 粉丝群",
-    tgSub:"在群里下载整张专辑的离线 MP3。",
-    tgJoin:"加入群组",
-    tgSoon:"即将开放",
-    alts:["专辑封面：落日下眺望佛塔与河流的背影","专辑背封：月夜下的勐卯与 12 首曲目"],
+    alts:["专辑封面：落日下眺望佛塔与河流的背影","专辑背封：月夜下的勐卯与 12 首曲目列表"],
     slide:"第 {n} 张", pause:"暂停轮播", play:"播放轮播",
     rights:"保留所有权利。"
   },
@@ -262,10 +242,6 @@ const TEXT = {
     intro:"The Shweli River has flowed for more than 2,000 years.<br><br>It has seen the palaces and blossoms of Mengmaolone, and it has seen war, scattering, and a written script close to being forgotten. This album is my songs to this land, written in the Dai language.<br><br>I sing of my ancestors’ scars and of laughter at the Water-Splashing Festival; of morning mist over the paddy ridges and chanting in the temple; of the people I loved and the heart that broke. And I sing for my mom: the mecha toy I wanted when I was eleven, you always remembered. Now my voice has finally reached somewhere far away, and you can no longer hear it.<br><br>Some are waiting to watch me fall, but Dai blood runs in me, and I can’t stop.<br><br>This is not a cover album. It is a Dai kid giving Mengmaolone its voice again.<br><strong>This is Mengmaolone.</strong><br><br>Thank you so much for supporting the physical album.",
     listenTitle:"Choose your platform",
     soon:"Coming soon",
-    tgTitle:"Telegram fan group",
-    tgSub:"Download the full album as offline MP3s in the group.",
-    tgJoin:"Join the group",
-    tgSoon:"Opening soon",
     alts:["Album cover: a figure watching the sun set over pagodas and a river","Back cover: Mengmao under a full moon, with the 12-song tracklist"],
     slide:"Image {n}", pause:"Pause slideshow", play:"Play slideshow",
     rights:"All rights reserved."
@@ -319,9 +295,6 @@ function render(lang){
     li.appendChild(a); ul.appendChild(li);
   });
 
-  const btn = document.getElementById("tg-btn");
-  if (TELEGRAM) { btn.href = TELEGRAM; btn.target = "_blank"; btn.rel = "noopener"; btn.className = ""; btn.textContent = T.tgJoin; }
-  else { btn.removeAttribute("href"); btn.className = "off"; btn.textContent = T.tgSoon; }
 
   document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
 }

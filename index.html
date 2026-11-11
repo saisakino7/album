@@ -109,6 +109,13 @@ h1{
 h2{margin:0 8px 22px; font-size:clamp(28px,6.6vw,40px); font-weight:700; letter-spacing:-.02em; line-height:1.1}
 .group{list-style:none; margin:0; padding:0; background:var(--group); border-radius:18px; overflow:hidden}
 .group li + li .row-in{border-top:1px solid var(--sep)}
+.h-follow{margin-top:56px}
+.tg{margin-top:28px; padding:26px 22px; border-radius:18px; background:var(--group); display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+.tg-text{flex:1 1 220px}
+.tg h3{margin:0; font-size:21px; font-weight:700; letter-spacing:-.01em}
+.tg p{margin:4px 0 0; font-size:15px; color:var(--text-2)}
+.tg a{padding:10px 20px; border-radius:980px; background:var(--sun); color:var(--on-sun); font-size:15px; font-weight:500; text-decoration:none; white-space:nowrap}
+.tg a.off{background:var(--sep); color:var(--text-2)}
 .row{display:block; padding-left:18px; color:inherit; text-decoration:none}
 .row:active{background:var(--sep)}
 .row-in{display:flex; align-items:center; gap:14px; padding:14px 18px 14px 0; min-height:62px}
@@ -154,7 +161,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sun); outline-offse
   h2{margin:0 0 24px; font-size:32px}
   .row-in{min-height:68px}
   .row:hover{background:var(--sep)}
-  .cta:hover{background:var(--sun-hover)}
+  .cta:hover,.tg a:hover{background:var(--sun-hover)}
+  .h-follow{margin-top:64px}
   footer{border-top:none}
 }
 </style>
@@ -201,6 +209,17 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sun); outline-offse
   <div class="inner">
     <h2 data-t="listenTitle"></h2>
     <ul class="group" id="links"></ul>
+
+    <h2 class="h-follow" data-t="followTitle"></h2>
+    <ul class="group" id="follow"></ul>
+
+    <div class="tg">
+      <div class="tg-text">
+        <h3 data-t="tgTitle"></h3>
+        <p data-t="tgSub"></p>
+      </div>
+      <a id="tg-btn"></a>
+    </div>
   </div>
 </section>
 </div>
@@ -222,6 +241,15 @@ const LINKS = [
   { zh:"QQ 音乐",     en:"QQ Music",           url:"https://c6.y.qq.com/base/fcgi-bin/u?__=cegukIdjqWo2", icon:"icons/qqmusic.png",    color:"#31C27C" }
 ];
 
+/* 关注艺人：社交账号 */
+const FOLLOW = [
+  { zh:"TikTok", en:"TikTok", url:"https://www.tiktok.com/@saisakino7", icon:"icons/tiktok.png", color:"#FE2C55" },
+  { zh:"抖音",   en:"Douyin", url:"https://v.douyin.com/YyTofzTlFVQ/",   icon:"icons/douyin.png", color:"#25F4EE" }
+];
+
+/* Telegram 频道：下载整张专辑的离线音频 */
+const TELEGRAM = "https://t.me/saisakithebest";
+
 /* 文案：中文 / 英文 */
 const TEXT = {
   zh: {
@@ -230,6 +258,11 @@ const TEXT = {
     statement:"这是属于新时代的年轻人<br>再度敲响勐卯弄的回响",
     intro:"瑞丽江的水，流了 2000 多年。<br><br>它见过勐卯弄的王宫与繁花，也见过战火、离散，和快要被遗忘的文字。这张专辑，是我用傣语写给这片土地的歌。<br><br>我唱祖先的伤痕，也唱泼水节的笑声；唱田埂上的晨雾、寺院里的诵经，也唱爱过的人和碎过的心。我还唱给妈妈听：十一岁那年我想要的机甲，你一直记着。现在我的声音终于传到了很远的地方，你却再也听不见了。<br><br>有人等着看我跌倒，可我身体里流着傣家的血，停不下来。<br><br>这不是翻唱歌曲，是一个傣家孩子替勐卯弄重新开口。<br><strong>这是勐卯弄。</strong><br><br>非常感谢你支持实体专辑。",
     listenTitle:"选择平台收听",
+    followTitle:"关注艺人",
+    tgTitle:"Telegram 频道",
+    tgSub:"在频道里下载整张专辑的离线音频，没网也能听。",
+    tgJoin:"加入频道",
+    tgSoon:"即将开放",
     soon:"即将上线",
     alts:["专辑封面：落日下眺望佛塔与河流的背影","专辑背封：月夜下的勐卯与 12 首曲目列表"],
     slide:"第 {n} 张", pause:"暂停轮播", play:"播放轮播",
@@ -241,6 +274,11 @@ const TEXT = {
     statement:"A new generation,<br>sounding the echoes of Mengmaolone once more",
     intro:"The Shweli River has flowed for more than 2,000 years.<br><br>It has seen the palaces and blossoms of Mengmaolone, and it has seen war, scattering, and a written script close to being forgotten. This album is my songs to this land, written in the Dai language.<br><br>I sing of my ancestors’ scars and of laughter at the Water-Splashing Festival; of morning mist over the paddy ridges and chanting in the temple; of the people I loved and the heart that broke. And I sing for my mom: the mecha toy I wanted when I was eleven, you always remembered. Now my voice has finally reached somewhere far away, and you can no longer hear it.<br><br>Some are waiting to watch me fall, but Dai blood runs in me, and I can’t stop.<br><br>This is not a cover album. It is a Dai kid giving Mengmaolone its voice again.<br><strong>This is Mengmaolone.</strong><br><br>Thank you so much for supporting the physical album.",
     listenTitle:"Choose your platform",
+    followTitle:"Follow the artist",
+    tgTitle:"Telegram channel",
+    tgSub:"Download the full album as offline audio in the channel, so you can listen anywhere.",
+    tgJoin:"Join the channel",
+    tgSoon:"Opening soon",
     soon:"Coming soon",
     alts:["Album cover: a figure watching the sun set over pagodas and a river","Back cover: Mengmao under a full moon, with the 12-song tracklist"],
     slide:"Image {n}", pause:"Pause slideshow", play:"Play slideshow",
@@ -265,20 +303,10 @@ function detectLang(){
 
 const chev = '<svg class="chev" viewBox="0 0 8 13" fill="none" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5 1.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-function render(lang){
-  const T = TEXT[lang];
-  document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-  document.title = ALBUM + " · " + ARTIST;
-  document.getElementById("album").textContent = ALBUM;
-  document.getElementById("artist").textContent = ARTIST;
-  document.querySelectorAll(".slide img").forEach((img, i) => { img.alt = T.alts[i] || ""; });
-  Gallery.label(T);
-  document.querySelectorAll("[data-t]").forEach(el => { el.innerHTML = T[el.dataset.t]; });
-  document.getElementById("foot").textContent = "© " + new Date().getFullYear() + " " + ARTIST + ". " + T.rights;
-
-  const ul = document.getElementById("links");
+function fill(id, list, lang, T){
+  const ul = document.getElementById(id);
   ul.innerHTML = "";
-  LINKS.forEach(l => {
+  list.forEach(l => {
     const li = document.createElement("li");
     const a = document.createElement("a");
     a.className = "row" + (l.url ? "" : " off");
@@ -294,6 +322,25 @@ function render(lang){
     }
     li.appendChild(a); ul.appendChild(li);
   });
+}
+
+function render(lang){
+  const T = TEXT[lang];
+  document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  document.title = ALBUM + " · " + ARTIST;
+  document.getElementById("album").textContent = ALBUM;
+  document.getElementById("artist").textContent = ARTIST;
+  document.querySelectorAll(".slide img").forEach((img, i) => { img.alt = T.alts[i] || ""; });
+  Gallery.label(T);
+  document.querySelectorAll("[data-t]").forEach(el => { el.innerHTML = T[el.dataset.t]; });
+  document.getElementById("foot").textContent = "© " + new Date().getFullYear() + " " + ARTIST + ". " + T.rights;
+
+  fill("links", LINKS, lang, T);
+  fill("follow", FOLLOW, lang, T);
+
+  const btn = document.getElementById("tg-btn");
+  if (TELEGRAM) { btn.href = TELEGRAM; btn.target = "_blank"; btn.rel = "noopener"; btn.className = ""; btn.textContent = T.tgJoin; }
+  else { btn.removeAttribute("href"); btn.className = "off"; btn.textContent = T.tgSoon; }
 
 
   document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
